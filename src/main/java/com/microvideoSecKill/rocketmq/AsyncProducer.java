@@ -1,6 +1,7 @@
 package com.microvideoSecKill.rocketmq;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
@@ -14,9 +15,15 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 @Service
+@Slf4j
 //@Component
 public class AsyncProducer {
 
@@ -48,8 +55,11 @@ public class AsyncProducer {
         secKillMessage.setUserId(userId);
         secKillMessage.setGoodsId(goodsId);
         secKillMessage.setBuyCount(buyCount);
+        secKillMessage.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
 
-        Message msg = new Message(producerTopic, JSON.toJSONString(secKillMessage).getBytes());
+        String msgString = JSON.toJSONString(secKillMessage);
+        Message msg = new Message(producerTopic, msgString.getBytes());
+        log.info("Send msg - {}", msgString);
 
         // 进行异步发送，通过SendCallback接口来得知发送的结果
         producer.send(msg, new SendCallback() {

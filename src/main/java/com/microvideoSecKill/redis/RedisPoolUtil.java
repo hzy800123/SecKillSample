@@ -185,8 +185,9 @@ public class RedisPoolUtil {
      */
     public Long evalsha(String key, String buyCount) {
         try (Jedis jedis = RedisPool.getJedis()) {
-            // 2个入参：KEYS[1] : 活动库存的Key, KEYS[2] : 活动库存的扣减量
-            // keyCount = 2
+            // 2个入参：
+            // KEYS[1]: 活动库存的Key,
+            // KEYS[2]: 活动库存的扣减量buyCount
             Object obj = jedis.evalsha(STOCK_DEDUCTION_SCRIPT_SHA1, 2, key, buyCount);
             // 如果脚本中返回的结果是0，表示失败，如果返回1，表示成功。
             return (Long) obj;
