@@ -3,6 +3,8 @@ package com.microvideoSecKill.redis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
+
 import javax.annotation.PostConstruct;
 
 
@@ -205,18 +207,23 @@ public class RedisPoolUtil {
         // 如果脚本中返回的结果是0，表示失败，如果返回1，表示成功。
         log.info("Result of evalsha: {}", result);
 
-//        RedisPoolUtil.set("keyTest2","valueTest2");
-//
-//        String value = RedisPoolUtil.get("keyTest2");
-//
-//        RedisPoolUtil.setEx("keyEx","valueEx",10*1);
-//
-//        RedisPoolUtil.expire("keyTest2",20*1);
-//
-//        RedisPoolUtil.del("keyTest2");
-//
-//        String aaa = RedisPoolUtil.get(null);
-//        System.out.println(aaa);
+        RedisPoolUtil.set("keyTest2","valueTest2");
+
+        String value = RedisPoolUtil.get("keyTest2");
+
+        RedisPoolUtil.setEx("keyEx","valueEx",10*1);
+
+        RedisPoolUtil.expire("keyTest2",20*1);
+
+        RedisPoolUtil.del("keyTest2");
+
+        String aaa = RedisPoolUtil.get(null);
+        System.out.println(aaa);
+
+        Jedis jedis = RedisPool.getJedis();
+        Pipeline p = jedis.pipelined();
+        p.set("abc", "123");
+        p.sync();
 
         log.info("RedisPoolUtil Test End...");
     }

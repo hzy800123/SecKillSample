@@ -1,0 +1,48 @@
+- Commands to start Redis Servers and Redis-sentinel Servers:
+
+-Enter the folder with Redis config files:
+cd /usr/local/etc
+
+-Folders structure under 'user/local/etc':
+
+├── redis6379
+│   └── redis.conf
+├── redis6380
+│   └── redis.conf
+├── redis6381
+│   └── redis.conf
+├── redis_sentinel_26379
+│   └── redis_sentinel.conf
+├── redis_sentinel_26380
+│   └── redis_sentinel.conf
+├── redis_sentinel_26381
+    └── redis_sentinel.conf
+
+
+(1) Redis Server 1:
+cd redis6379
+redis-server redis.conf &
+
+(2) Redis Server 2:
+cd redis6380
+redis-server redis.conf &
+
+(3) Redis Server 3:
+cd redis6381
+redis-server redis.conf &
+
+(4) Redis-sentinel Server 1:
+cd redis_sentinel_26379
+redis-sentinel redis_sentinel.conf &
+
+(5) Redis-sentinel Server 2:
+cd redis_sentinel_26380
+redis-sentinel redis_sentinel.conf &
+
+(6) Redis-sentinel Server 3:
+cd redis_sentinel_26381
+redis-sentinel redis_sentinel.conf &
+
+
+(7) Checking Redis servers command:
+ps -ef | grep 'redis'

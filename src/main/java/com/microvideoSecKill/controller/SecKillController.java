@@ -6,6 +6,7 @@ import com.microvideoSecKill.redis.RedisPoolUtil;
 import com.microvideoSecKill.result.ReturnResult;
 import com.microvideoSecKill.rocketmq.AsyncProducer;
 import com.microvideoSecKill.service.SecKillGoodsService;
+import com.microvideoSecKill.service.SecKillOrderService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ public class SecKillController implements InitializingBean {
 
     @Autowired
     SecKillGoodsService secKillGoodsService;
+
+    @Autowired
+    SecKillOrderService secKillOrderService;
 
     @Autowired
     RedisPoolUtil redisPoolUtil;
@@ -60,11 +66,18 @@ public class SecKillController implements InitializingBean {
     @ResponseBody
     public ReturnResult<String> seckill(@RequestParam("userId") String userId,
                                         @RequestParam("goodsId") String goodsId) {
-        // MySQL 减库存
-        // 每次秒杀的商品（或红包）的数量为1
+//        // MySQL 减库存
+//        // 每次秒杀的商品（或红包）的数量为1
 //        int buyCount = 1;
-//        boolean success = secKillGoodsService.reduceStock(goodsId, buyCount);
-//        if (success) {
+//        boolean successReduceStock = secKillGoodsService.reduceStock(goodsId, buyCount);
+//
+//        // MySQL 创建订单
+//        // 每次成功秒杀的商品（或红包）的数量为 buyCount
+//        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+//        boolean successCreateOrder = secKillOrderService.
+//                createNewSecKillGoodsAndStockCount(userId, goodsId, buyCount, timestamp);
+//
+//        if (successReduceStock && successCreateOrder) {
 //            log.info("SecKill Successful !");
 //            return ReturnResult.setSuccessResult(goodsId);
 //        } else {

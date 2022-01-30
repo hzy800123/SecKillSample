@@ -46,6 +46,8 @@ public class AsyncProducer {
         producer.setNamesrvAddr(namesrvAddr);
         // 启动Producer
         producer.start();
+        // 设置生产者发送消息的超时时间
+        producer.setSendMsgTimeout(1000*10);
         System.out.println("生产者 Producer start");
     }
 
